@@ -1,15 +1,21 @@
 import ast
+import os
 import pandas as pd
 import tiktoken
 from openai import OpenAI
 from scipy import spatial
+from utils import getDataPath
+from dotenv import load_dotenv
 
-api_key = 'sk-proj-I3tjkHpgKcScB38bl1QjT3BlbkFJc3PBfRNm0VeOtT77QNnP'
-client = OpenAI(api_key=api_key)
+load_dotenv()
+
+
+API_KEY = os.getenv('API_KEY')
+client = OpenAI(api_key=API_KEY)
 EMBEDDING_MODEL = 'text-embedding-3-small'
 GPT_MODEL = 'gpt-3.5-turbo-0125'
 
-df = pd.read_csv('dados/intellicash.csv')
+df = pd.read_csv(f'{getDataPath()}/intellicash.csv')
 df['embedding'] = df['embedding'].apply(ast.literal_eval)
 
 
@@ -85,6 +91,3 @@ def ask(
     )
     response_message = response.choices[0].message.content
     return response_message
-
-
-print(ask('Como cadastro funcionários?'))

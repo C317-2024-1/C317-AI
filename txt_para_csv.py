@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from utils import getDataPath
 
 dados = []
 
@@ -13,4 +14,4 @@ for arquivo in os.listdir('textos'):
             dados.append([nome_arquivo, conteudo_tratado])
 
 df = pd.DataFrame(dados, columns=['title', 'text'])
-df.to_csv('dados/titulo_e_texto.csv', index=False, encoding='utf-8')
+df.to_csv(f'{getDataPath()}/titulo_e_texto.csv', index=False, encoding='utf-8')

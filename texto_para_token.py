@@ -1,8 +1,9 @@
 import tiktoken
 import pandas as pd
+from utils import getDataPath
 
 tokenizer = tiktoken.get_encoding("cl100k_base")
-df = pd.read_csv('dados/titulo_e_texto.csv')
+df = pd.read_csv(f'{getDataPath()}/titulo_e_texto.csv')
 
 
 def process_long_text(text, max_tokens=1024):
@@ -22,4 +23,4 @@ def count_tokens(text):
 df['processed_text'] = df['text'].apply(process_long_text)
 df['num_tokens'] = df['processed_text'].apply(count_tokens)
 
-df.to_csv('dados/token.csv', index=False)
+df.to_csv(f'{getDataPath()}/token.csv', index=False)
