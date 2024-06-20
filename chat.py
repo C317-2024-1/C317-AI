@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 API_KEY = os.getenv('API_KEY')
 client = OpenAI(api_key=API_KEY)
 EMBEDDING_MODEL = 'text-embedding-3-small'
@@ -18,6 +17,7 @@ GPT_MODEL = 'gpt-3.5-turbo-0125'
 df = pd.read_csv(f'{getDataPath()}/intellicash.csv')
 df['embedding'] = df['embedding'].apply(ast.literal_eval)
 
+texto = 'Desculpe-me, mas não consigo resolver seu problema com os dados que possuo. Por favor, entre em contato conosco atarvés do site (https://www.iws.com.br/contato.php) ou nosso canal de atendimento (https://www.iws.com.br/central-de-relacionamento.php).'
 
 def strings_ranked_by_relatedness(
         query: str,
@@ -54,7 +54,7 @@ def query_message(
 ) -> str:
     """Return a message for GPT, with relevant source texts pulled from a dataframe."""
     strings, relatednesses = strings_ranked_by_relatedness(query, df)
-    introduction = 'Use a documentacao abaixo sobre o Sistema de Gestao Intellicash da empresa IWS Sistemas para responder a seguinte pergunta.'
+    introduction = f'Use a documentacao abaixo sobre o Sistema de Gestao Intellicash da empresa IWS Sistemas para responder a seguinte pergunta. Caso não consiga responder, escreva "{texto}."'
     question = f"\n\nQuestion: {query}"
     message = introduction
     for string in strings:
